@@ -1,5 +1,5 @@
 from django.db.models import Sum
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from rest_framework.views import APIView
 
 from orders.models import Order
@@ -21,5 +21,22 @@ class CreateOrderView(APIView):
             return JsonResponse({'status': 'ok', 'order': OrderSerializer(order).data})
 
         return JsonResponse({'status': 'error', 'msg': 'Something went wrong!'})
+
+
+class ConfirmOrderView(APIView):
+    def get(self, request, *args, **kwargs):
+        order_id = kwargs.get('order_id')
+        if order_id:
+            try:
+                order = Order.objects.get(id=order_id)
+                if order.payment.PAID:
+                    order.status = Order.CONFIRMED
+                    order.save()
+                return JsonResponse({'status': 'ok', 'payment': OrderSerializer(order).data})
+            except Order.DoesNotExist:
+                return JsonResponse({'status': 'error', 'msg': 'Error order'})
+
+        return JsonResponse({'status': 'error', 'msg': 'Something went wrong!'})
+
 
 

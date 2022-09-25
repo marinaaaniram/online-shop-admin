@@ -22,7 +22,7 @@ class Payment(models.Model):
         (NON_CASH, 'Non cash'),
     )
 
-    order = models.ForeignKey(Order, on_delete=CASCADE)
+    order = models.OneToOneField(Order, on_delete=CASCADE)
     payment_sum = models.PositiveIntegerField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=INIT)
     payment_type = models.CharField(max_length=20, choices=PAYMENT_TYPE_CHOICES, default=NON_CASH)
