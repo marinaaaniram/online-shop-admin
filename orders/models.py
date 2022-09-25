@@ -1,5 +1,7 @@
 from django.db import models
 
+from products.models import Product
+
 
 class Order(models.Model):
     INIT = 'init'
@@ -11,6 +13,7 @@ class Order(models.Model):
         (COMPLETE, 'Complete'),
     )
 
+    products = models.ManyToManyField(Product)
     order_sum = models.PositiveIntegerField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=INIT)
     approved_at = models.DateTimeField(blank=True, null=True)

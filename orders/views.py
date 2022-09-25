@@ -17,6 +17,7 @@ class CreateOrderView(APIView):
             order_sum = products_queryset.aggregate(order_sum=Sum('price'))['order_sum']
 
             order = Order.objects.create(order_sum=order_sum)
+            order.products.add(*products_queryset)
             return JsonResponse({'status': 'ok', 'order': OrderSerializer(order).data})
 
         return JsonResponse({'status': 'error', 'msg': 'Something went wrong!'})
