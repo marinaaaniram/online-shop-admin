@@ -6,6 +6,3 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
-
-    def get_extra_actions(self):
-        pass

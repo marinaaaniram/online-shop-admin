@@ -11,8 +11,8 @@ class Payment(models.Model):
         (SUCCESS, 'Success'),
     )
 
-    sum = models.PositiveIntegerField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
+    payment_sum = models.PositiveIntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=INIT)
     payment_type = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

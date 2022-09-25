@@ -11,8 +11,8 @@ class Order(models.Model):
         (COMPLETE, 'Complete'),
     )
 
-    sum = models.PositiveIntegerField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
-    approved_at = models.DateTimeField()
+    order_sum = models.PositiveIntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=INIT)
+    approved_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
