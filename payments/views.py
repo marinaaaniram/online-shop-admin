@@ -13,10 +13,15 @@ class CreatePaymentView(APIView):
         if order_id and isinstance(order_id, int):
             try:
                 order = Order.objects.get(id=order_id)
-                payment = Payment.objects.create(
+                payment, created = Payment.objects.get_or_create(
                     order=order,
                     payment_sum=order.order_sum,
                 )
+                if created:
+                    payment.payment_sum = order.order_sum
+                    payment.save()
+                else:
+                    return JsonResponse({'status': 'error', 'msg': 'You\'re repeating yourself'})
                 return JsonResponse({'status': 'ok', 'payment': PaymentSerializer(payment).data})
             except Order.DoesNotExist:
                 return JsonResponse({'status': 'error', 'msg': 'Error order'})

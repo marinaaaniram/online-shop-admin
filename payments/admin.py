@@ -14,3 +14,4 @@ class PaymentAdmin(admin.ModelAdmin):
     form = PaymentAdminForm
     list_display = ('payment_sum', 'status', 'payment_type', 'created_at', 'updated_at')
     list_filter = ('status', 'payment_type')
+    list_editable = ('status', )
